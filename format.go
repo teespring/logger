@@ -90,15 +90,11 @@ func (l *Logger) ColorfulAttrs(attrs *Attrs) string {
 }
 
 func (l *Logger) ColorfulPrefix(verbosity int) string {
-	if verbosity != 3 {
+	if verbosity != VERBOSITY_ERROR {
 		return ""
 	}
 
-	prefix := ""
-
-	if verbosity == 3 {
-		prefix = fmt.Sprintf("%s!", red)
-	}
+	prefix := fmt.Sprintf("%s!", red)
 
 	return fmt.Sprintf("%s(%s%s)%s", grey, prefix, grey, l.Color)
 }

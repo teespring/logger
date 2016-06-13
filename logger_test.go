@@ -12,7 +12,7 @@ func TestWrite(t *testing.T) {
 
 	// Overwrite settings
 	var buff = &bytes.Buffer{}
-	out = buff
+	SetOutput(buff)
 	allEnabled = true
 
 	// Create a logger to test
@@ -31,7 +31,7 @@ func TestOutput(t *testing.T) {
 
 	// Overwrite settings
 	var buff = &bytes.Buffer{}
-	out = buff
+	SetOutput(buff)
 	allEnabled = true
 	now = func() time.Time {
 		return time.Unix(1465844390, 123456)
@@ -48,13 +48,35 @@ func TestOutput(t *testing.T) {
 	}
 }
 
+func TestDebug(t *testing.T) {
+	var expected = "{ \"time\":\"2016-06-13 11:59:50.000123456 -0700 PDT\", \"package\":\"Test Logger\"," +
+		" \"level\":\"DEBUG\", \"msg\":\"This is a test message.\" }\n"
+
+	// Overwrite output writer w/ Buffer
+	var buff = &bytes.Buffer{}
+	SetOutput(buff)
+	allEnabled = true
+	now = func() time.Time {
+		return time.Unix(1465844390, 123456)
+	}
+
+	// Create a logger to test
+	var subject = New("Test Logger")
+
+	subject.Debug("This is a test message.")
+
+	if s := buff.String(); !strings.EqualFold(s, expected) {
+		t.Errorf("The expected string did not get written: Expected: \"%s\"; Received: \"%s\"", expected, s)
+	}
+}
+
 func TestInfo(t *testing.T) {
 	var expected = "{ \"time\":\"2016-06-13 11:59:50.000123456 -0700 PDT\", \"package\":\"Test Logger\"," +
 		" \"level\":\"INFO\", \"msg\":\"This is a test message.\" }\n"
 
 	// Overwrite output writer w/ Buffer
 	var buff = &bytes.Buffer{}
-	out = buff
+	SetOutput(buff)
 	allEnabled = true
 	now = func() time.Time {
 		return time.Unix(1465844390, 123456)
@@ -76,7 +98,7 @@ func TestWarn(t *testing.T) {
 
 	// Overwrite output writer w/ Buffer
 	var buff = &bytes.Buffer{}
-	out = buff
+	SetOutput(buff)
 	allEnabled = true
 	now = func() time.Time {
 		return time.Unix(1465844390, 123456)
@@ -98,7 +120,7 @@ func TestError(t *testing.T) {
 
 	// Overwrite output writer w/ Buffer
 	var buff = &bytes.Buffer{}
-	out = buff
+	SetOutput(buff)
 	allEnabled = true
 	now = func() time.Time {
 		return time.Unix(1465844390, 123456)

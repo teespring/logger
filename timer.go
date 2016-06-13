@@ -31,7 +31,7 @@ func (t *Timer) Format(elapsed int64, msg string, customAttrs *Attrs) string {
 			attrs = fmt.Sprintf("%s %s", attrs, strCustomAttrs)
 		}
 
-		return t.Logger.JSONFormat("TIMER", msg, attrs)
+		return t.Logger.JSONFormat(LEVEL_TIMER, msg, attrs)
 	}
 
 	prefix := fmt.Sprintf("%s(%s%s%s)%s", grey, reset, time.Duration(elapsed), grey, t.Logger.Color)

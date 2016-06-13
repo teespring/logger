@@ -1,14 +1,17 @@
 package logger
 
 import (
+	"io"
 	"os"
 	"strings"
+	"time"
 )
 
 var (
-	out                 = os.Stderr
-	verbosity           = Verbosity()
-	enabled, allEnabled = Enabled()
+	out                 io.Writer        = os.Stderr
+	verbosity           int              = Verbosity()
+	enabled, allEnabled                  = Enabled()
+	now                 func() time.Time = time.Now
 )
 
 func Enabled() (map[string]bool, bool) {

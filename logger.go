@@ -4,6 +4,13 @@ import (
 	"fmt"
 )
 
+const (
+	LEVEL_INFO  = "INFO"
+	LEVEL_TIMER = "TIMER"
+	LEVEL_WARN  = "WARN"
+	LEVEL_ERROR = "ERROR"
+)
+
 type Logger struct {
 	Name      string
 	IsEnabled bool
@@ -29,7 +36,7 @@ func (l *Logger) Info(format string, v ...interface{}) {
 
 	v, attrs := SplitAttrs(v...)
 
-	l.Output(1, "INFO", fmt.Sprintf(format, v...), attrs)
+	l.Output(1, LEVEL_INFO, fmt.Sprintf(format, v...), attrs)
 }
 
 func (l *Logger) Timer() *Timer {
@@ -40,6 +47,16 @@ func (l *Logger) Timer() *Timer {
 	}
 }
 
+func (l *Logger) Warn(format string, v ...interface{}) {
+	if !l.IsEnabled {
+		return
+	}
+
+	v, attrs := SplitAttrs(v...)
+
+	l.Output(2, LEVEL_WARN, fmt.Sprintf(format, v...), attrs)
+}
+
 func (l *Logger) Error(format string, v ...interface{}) {
 	if !l.IsEnabled {
 		return
@@ -47,7 +64,7 @@ func (l *Logger) Error(format string, v ...interface{}) {
 
 	v, attrs := SplitAttrs(v...)
 
-	l.Output(3, "ERROR", fmt.Sprintf(format, v...), attrs)
+	l.Output(3, LEVEL_ERROR, fmt.Sprintf(format, v...), attrs)
 }
 
 func (l *Logger) Output(verbosity int, sort string, msg string, attrs *Attrs) {

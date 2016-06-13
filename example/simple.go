@@ -3,7 +3,7 @@ package main
 import (
 	"time"
 
-	"github.com/azer/logger"
+	"github.com/teespring/logger"
 )
 
 var log = logger.New("app")

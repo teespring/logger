@@ -2,8 +2,9 @@ package main
 
 import (
 	"errors"
-	"github.com/azer/logger"
 	"time"
+
+	"github.com/azer/logger"
 )
 
 var app = logger.New("app")

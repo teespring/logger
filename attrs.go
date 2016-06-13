@@ -7,12 +7,12 @@ func SplitAttrs(v ...interface{}) ([]interface{}, *Attrs) {
 		return v, nil
 	}
 
-	attrs, ok := v[len(v) -1].(Attrs)
+	attrs, ok := v[len(v)-1].(Attrs)
 
 	if !ok {
 		return v, nil
 	}
 
-	v = v[:len(v) - 1]
+	v = v[:len(v)-1]
 	return v, &attrs
 }

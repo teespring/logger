@@ -2,9 +2,10 @@ package logger
 
 import (
 	"fmt"
-	"github.com/azer/is-terminal"
 	"syscall"
 	"time"
+
+	"github.com/azer/is-terminal"
 )
 
 var colorEnabled = isterminal.IsTerminal(syscall.Stderr)
@@ -38,7 +39,7 @@ func (l *Logger) JSONFormat(sort string, msg string, attrs string) string {
 	return fmt.Sprintf("{ \"time\":\"%s\", \"package\":\"%s\", \"level\":\"%s\",%s \"msg\":\"%s\" }", time.Now(), l.Name, sort, attrs, msg)
 }
 
-func (l *Logger) JSONFormatAttrs (attrs *Attrs) string {
+func (l *Logger) JSONFormatAttrs(attrs *Attrs) string {
 	result := ""
 
 	if attrs == nil {

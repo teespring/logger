@@ -1,14 +1,17 @@
 package logger
 
 import (
+	"io"
 	"os"
 	"strings"
+	"time"
 )
 
 var (
-	out                 = os.Stderr
-	verbosity           = Verbosity()
-	enabled, allEnabled = Enabled()
+	out                 io.Writer        = os.Stderr
+	verbosity           int              = Verbosity()
+	enabled, allEnabled                  = Enabled()
+	now                 func() time.Time = time.Now
 )
 
 func Enabled() (map[string]bool, bool) {
@@ -40,18 +43,21 @@ func IsEnabled(name string) bool {
 func Verbosity() int {
 	level := os.Getenv("LOG_LEVEL")
 
-	if strings.ToUpper(level) == "TIMER" {
-		return 2
+	switch strings.ToUpper(level) {
+	case "INFO":
+		return VERBOSITY_INFO
+	case "TIMER":
+		return VERBOSITY_TIMER
+	case "WARN":
+		return VERBOSITY_WARN
+	case "ERROR":
+		return VERBOSITY_ERROR
 	}
 
-	if strings.ToUpper(level) == "ERROR" {
-		return 3
-	}
-
-	return 1
+	return VERBOSITY_DEBUG
 }
 
-func SetOutput(w *os.File) {
+func SetOutput(w io.Writer) {
 	colorEnabled = false
 	out = w
 }

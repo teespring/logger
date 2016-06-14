@@ -3,7 +3,6 @@ package logger
 import (
 	"fmt"
 	"syscall"
-	"time"
 
 	"github.com/azer/is-terminal"
 )
@@ -36,7 +35,7 @@ func (l *Logger) Format(verbosity int, sort string, msg string, attrs *Attrs) st
 }
 
 func (l *Logger) JSONFormat(sort string, msg string, attrs string) string {
-	return fmt.Sprintf("{ \"time\":\"%s\", \"package\":\"%s\", \"level\":\"%s\",%s \"msg\":\"%s\" }", time.Now(), l.Name, sort, attrs, msg)
+	return fmt.Sprintf("{ \"time\":\"%s\", \"package\":\"%s\", \"level\":\"%s\",%s \"msg\":\"%s\" }", now(), l.Name, sort, attrs, msg)
 }
 
 func (l *Logger) JSONFormatAttrs(attrs *Attrs) string {
@@ -59,7 +58,7 @@ func (l *Logger) JSONFormatAttrs(attrs *Attrs) string {
 }
 
 func (l *Logger) ColorfulFormat(prefix, msg string, attrs *Attrs) string {
-	return fmt.Sprintf("%s%s %s%s%s:%s %s%s", grey, time.Now().Format("01.02.06 15:04:05.000"), l.Color, l.Name, prefix, reset, msg, l.ColorfulAttrs(attrs))
+	return fmt.Sprintf("%s%s %s%s%s:%s %s%s", grey, now().Format("01.02.06 15:04:05.000"), l.Color, l.Name, prefix, reset, msg, l.ColorfulAttrs(attrs))
 }
 
 func (l *Logger) ColorfulAttrs(attrs *Attrs) string {
@@ -91,15 +90,11 @@ func (l *Logger) ColorfulAttrs(attrs *Attrs) string {
 }
 
 func (l *Logger) ColorfulPrefix(verbosity int) string {
-	if verbosity != 3 {
+	if verbosity != VERBOSITY_ERROR {
 		return ""
 	}
 
-	prefix := ""
-
-	if verbosity == 3 {
-		prefix = fmt.Sprintf("%s!", red)
-	}
+	prefix := fmt.Sprintf("%s!", red)
 
 	return fmt.Sprintf("%s(%s%s)%s", grey, prefix, grey, l.Color)
 }

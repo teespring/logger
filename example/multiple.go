@@ -4,7 +4,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/azer/logger"
+	"github.com/teespring/logger"
 )
 
 var app = logger.New("app")
